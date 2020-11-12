@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="center" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.Controller">
+    <MenuBar>
+        <Menu text="FIle">
+            <MenuItem onAction="#btnExitAction" text="Exit" />
+        </Menu>
+    </MenuBar>
+    <HBox VBox.vgrow="ALWAYS">
+        <VBox HBox.hgrow="ALWAYS">
+            <HBox>
+                <Button onAction="#btnServerPathUpAction" text="Up" />
+                <TextField fx:id="serverPathField" editable="false" HBox.hgrow="ALWAYS" />
+                <Button text="Refresh" onAction="#btnRefreshServerFileList"/>
+            </HBox>
+            <TableView fx:id="serverFilesTable" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+        </VBox>
+        <VBox HBox.hgrow="ALWAYS">
+            <HBox>
+                <ComboBox fx:id="diskBox" onAction="#selectDiskAction" />
+                <Button onAction="#btnPathUpAction" text="Up" />
+                <TextField fx:id="clientPathField" editable="false" HBox.hgrow="ALWAYS" />
+                <Button text="Refresh" onAction="#btnRefreshClientFileList"/>
+            </HBox>
+            <TableView fx:id="clientFilesTable" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+        </VBox>
+    </HBox>
+    <HBox spacing="5">
+        <Button focusTraversable="false" maxWidth="Infinity" onAction="#btnNewFolder" text="New Folder" HBox.hgrow="ALWAYS" />
+        <Button focusTraversable="false" maxWidth="Infinity" onAction="#btnDownload" text="Copy" HBox.hgrow="ALWAYS" />
+        <Button focusTraversable="false" maxWidth="Infinity" onAction="#btnDelete" text="Delete" HBox.hgrow="ALWAYS" />
+        <Button focusTraversable="false" maxWidth="Infinity" onAction="#btnExitAction" text="Exit" HBox.hgrow="ALWAYS" />
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        </padding>
+    </HBox>
+</VBox>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="center" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.controllers.Tables">
+    <HBox>
+        <ComboBox fx:id="disksBox" onAction="#selectDiskAction"/>
+        <Button text="Up" onAction="#btnPathUpAction"/>
+        <TextField fx:id="clientPathField" editable="false" HBox.hgrow="ALWAYS"/>
+        <Button text="Refresh"/>
+    </HBox>
+    <TableView fx:id="clientFilesTable" VBox.vgrow="ALWAYS"/>
+
+    <properties>
+        <copy><fx:reference source="controller"/> </copy>
+    </properties>
+</VBox>

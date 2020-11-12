@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.AuthController">
+    <Label fx:id="ApplicationText" maxWidth="250" prefHeight="70.0" prefWidth="493.0" text="Welcome To Cloud Storage" textAlignment="CENTER" wrapText="true">
+        <VBox.margin>
+            <Insets top="40.0" />
+        </VBox.margin>
+        <font>
+            <Font size="24.0" />
+        </font>
+    </Label>
+    <TextField fx:id="loginField" maxWidth="300" minWidth="200" onAction="#btnLoginOnAction" promptText="Enter your username">
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </TextField>
+    <PasswordField fx:id="passwordField" maxWidth="300" minWidth="200" onAction="#btnLoginOnAction" promptText="Enter your password">
+        <VBox.margin>
+            <Insets top="15.0" />
+        </VBox.margin>
+    </PasswordField>
+    <HBox alignment="TOP_CENTER">
+        <VBox.margin>
+            <Insets top="15.0" />
+        </VBox.margin>
+    </HBox>
+    <Button fx:id="loginButton" minHeight="40" minWidth="200" onAction="#btnLoginOnAction" text="Log in">
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </Button>
+    <Button fx:id="ExitButton" minHeight="40" minWidth="200" onAction="#btnExitOnAction" text="Exit">
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </Button>
+</VBox>
