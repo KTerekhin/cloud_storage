@@ -7,6 +7,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.DefaultFileRegion;
 import io.netty.channel.FileRegion;
 import io.netty.util.concurrent.FutureListener;
+import org.apache.logging.log4j.core.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,18 +20,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileService {
-    private FileRegion fileRegion;
     private ByteBuf buffer;
-    private byte[] filenameBytes;
+//    Logger log = null;
 
     public void uploadFile(Channel channel, Path path, FutureListener listener) throws IOException {
-        fileRegion = new DefaultFileRegion(new FileInputStream(path.toFile()).getChannel(), 0, Files.size(path.normalize()));
-        filenameBytes = path.getFileName().toString().getBytes(StandardCharsets.UTF_8);
+        FileRegion fileRegion = new DefaultFileRegion(new FileInputStream(path.toFile()).getChannel(), 0, Files.size(path.normalize()));
+        byte[] filenameBytes = path.getFileName().toString().getBytes(StandardCharsets.UTF_8);
         buffer = ByteBufAllocator.DEFAULT.directBuffer(1 + 4 + filenameBytes.length + 8);
         buffer.writeByte(SignalByte.FILE_SIGNAL_BYTE);
         buffer.writeInt(path.getFileName().toString().length());
         buffer.writeBytes(filenameBytes);
         buffer.writeLong(Files.size(path));
+//        log.info(String.format("Upload file: %s\n" +
+//                "Path to file: %s\n" +
+//                "filename length: %d\n" +
+//                "file size: %d byte", path.getFileName().toString(), path.toString(), path.getFileName().toString().length(), Files.size(path)));
         channel.writeAndFlush(buffer);
         ChannelFuture future = channel.writeAndFlush(fileRegion);
         if (listener != null) {

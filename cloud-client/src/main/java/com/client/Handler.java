@@ -6,6 +6,7 @@ import com.help.utils.State;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.apache.logging.log4j.core.Logger;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -23,6 +24,7 @@ public class Handler extends ChannelInboundHandlerAdapter {
     private StringBuilder sb;
     private ServiceMessage callback;
     private Path currentPath = Paths.get("testClient");
+    Logger log = null;
 
     public void setCallback(ServiceMessage callback) {
         this.callback = callback;
@@ -44,6 +46,7 @@ public class Handler extends ChannelInboundHandlerAdapter {
                     curState = State.NAME_LENGTH;
                 } else {
                     curState = State.IDLE;
+                    log.error("Unknown byte command arrived.");
                     throw new IllegalArgumentException("Unknown byte command: " + read);
                 }
             }
@@ -68,6 +71,7 @@ public class Handler extends ChannelInboundHandlerAdapter {
                 String[] cmd = sb.toString().split("\n");
                 switch (cmd[0]) {
                     case "auth_OK":
+                    case "Reg_OK":
                         callback.callback(cmd[1]);
                         curState = State.IDLE;
                         break;
@@ -86,6 +90,7 @@ public class Handler extends ChannelInboundHandlerAdapter {
                     System.out.println("Get filename length.");
                     nextLength = buf.readInt();
                     curState = State.NAME;
+                    log.info(String.format("File transaction: Get file name length (%s).", nextLength));
                 }
             }
 
@@ -96,6 +101,7 @@ public class Handler extends ChannelInboundHandlerAdapter {
                     System.out.println("Filename received" + new String(filename, StandardCharsets.UTF_8));
                     out = new BufferedOutputStream(new FileOutputStream(new String(filename)));
                     curState = State.FILE_LENGTH;
+                    log.info(String.format("File transaction: Get file name (%s).", filename));
                 }
             }
 
@@ -104,6 +110,7 @@ public class Handler extends ChannelInboundHandlerAdapter {
                     fileLength = buf.readLong();
                     System.out.println("File length received");
                     curState = State.FILE;
+                    log.info(String.format("File transaction: Get file size (%s).", fileLength));
                 }
             }
 
@@ -114,6 +121,7 @@ public class Handler extends ChannelInboundHandlerAdapter {
                     if (fileLength == receivedFileLength) {
                         curState = State.IDLE;
                         System.out.println("File received");
+                        log.info("File transaction end.");
                         out.close();
                         break;
                     }
@@ -129,6 +137,6 @@ public class Handler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
-        ctx.close();
+//        ctx.close();
     }
 }
