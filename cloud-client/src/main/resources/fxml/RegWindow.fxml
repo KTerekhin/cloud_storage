@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.RegistrationController">
+    <Label fx:id="ApplicationText" alignment="CENTER" maxWidth="250" prefHeight="65.0" prefWidth="170.0" text="Registration" textAlignment="CENTER" wrapText="true">
+        <VBox.margin>
+            <Insets top="40.0" />
+        </VBox.margin>
+        <font>
+            <Font size="24.0" />
+        </font>
+    </Label>
+    <TextField fx:id="loginField" maxWidth="300" minWidth="200" onAction="#btnRegOnAction" promptText="Enter your login">
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </TextField>
+    <PasswordField fx:id="passwordField" maxWidth="300" minWidth="200" onAction="#btnRegOnAction" promptText="Enter your password">
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </PasswordField>
+    <HBox alignment="TOP_CENTER">
+        <VBox.margin>
+            <Insets top="15.0" />
+        </VBox.margin>
+    </HBox>
+    <Button fx:id="RegButton" minHeight="40" minWidth="200" onAction="#btnRegOnAction" text="Sign In">
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </Button>
+    <Button fx:id="BackButton" alignment="CENTER" minHeight="40" minWidth="200" onAction="#btnBackOnAction" text="Back">
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </Button>
+</VBox>

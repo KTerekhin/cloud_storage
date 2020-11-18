@@ -1,6 +1,7 @@
 package com.controllers;
 
 import com.client.Network;
+import com.database.service.ClientService;
 import com.help.utils.FileInfo;
 import com.help.utils.FileService;
 import com.help.utils.FileType;
@@ -74,7 +75,7 @@ public class Controller implements Initializable {
         });
         t.start();
         updateList(Paths.get("testClient"));
-        updateServerList();
+        updateServerList(ClientService.getUserPath());
     }
 
     private void prepareTableEvents(TableView<FileInfo> tableView) {
@@ -226,7 +227,7 @@ public class Controller implements Initializable {
         return Paths.get(getCurrentPath(), getSelectedFileName());
     }
 
-    public void updateServerList() {
+    public void updateServerList(Path path) {
         fileService.sendCommand(network.getCurChannel(), "/updateFileList\n");
     }
 
@@ -265,10 +266,10 @@ public class Controller implements Initializable {
     }
 
     public void btnRefreshServerFileList(ActionEvent actionEvent) {
-        updateList(Paths.get(getCurrentPath()));
+        fileService.sendCommand(network.getCurChannel(), "/updateFileList\n");
     }
 
     public void btnRefreshClientFileList(ActionEvent actionEvent) {
-        updateServerList();
+        updateList(Paths.get(getCurrentPath()));
     }
 }

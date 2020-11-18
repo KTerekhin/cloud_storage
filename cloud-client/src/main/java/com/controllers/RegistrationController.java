@@ -1,8 +1,8 @@
 package com.controllers;
 
 import com.client.Network;
+import com.help.utils.FileService;
 import com.main.ClientApp;
-import com.help.utils.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,30 +12,30 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AuthController implements Initializable {
+public class RegistrationController implements Initializable {
     private Network network = Network.getInstance();
     @FXML
     TextField loginField;
     @FXML
     PasswordField passwordField;
     @FXML
-    Button loginButton;
+    Button RegButton;
     @FXML
-    Button ExitButton;
+    Button BackButton;
     FileService fileService = new FileService();
 
-    public void btnLoginOnAction(ActionEvent event) {
+    public void btnRegOnAction(ActionEvent event) {
         if (loginField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            showDialog("Authorization error", "First you need to enter your username and password!", Alert.AlertType.ERROR);
+            showDialog("Registration error", "First you need to enter your login, password!", Alert.AlertType.ERROR);
         } else {
-            String username = loginField.getText();
+            String login = loginField.getText();
             String password = passwordField.getText();
-            fileService.sendCommand(network.getCurChannel(), String.format("/authorization\n%s\n%s", username, password));
+            fileService.sendCommand(network.getCurChannel(), String.format("/registration\n%s\n%s", login, password));
         }
     }
 
-    public void btnExitOnAction(ActionEvent actionEvent) {
-        Platform.exit();
+    public void btnBackOnAction(ActionEvent actionEvent) {
+        Platform.runLater(this::toAuth);
     }
 
     public void showDialog(String title, String msg, Alert.AlertType alertType) {
@@ -50,22 +50,14 @@ public class AuthController implements Initializable {
             network.getHandler().setCallback(serviceMsg -> {
                 System.out.println(serviceMsg);
                 if (serviceMsg.equals("OK")) {
-                    Platform.runLater(this::toMain);
+                    Platform.runLater(this::toAuth);
                 }
             });
         });
         t.start();
     }
 
-    private void toMain() {
-        ClientApp.getInstance().gotoMainApp();
-    }
-
-    private void toReg() {
-        ClientApp.getInstance().gotoSignIn();
-    }
-
-    public void btnRegOnAction(ActionEvent actionEvent) {
-        Platform.runLater(this::toReg);
+    private void toAuth() {
+        ClientApp.getInstance().gotoLogin();
     }
 }

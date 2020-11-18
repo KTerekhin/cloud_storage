@@ -1,17 +1,14 @@
 package com.main;
 
 import com.client.Network;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.application.Application;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-
-import java.io.IOException;
 
 public class ClientApp extends Application {
     private Stage stage;
@@ -42,7 +39,15 @@ public class ClientApp extends Application {
         }
     }
 
-    private Parent replaceSceneContent(String fxml) throws Exception {
+    public void gotoSignIn() {
+        try {
+            replaceSceneContent("/fxml/RegWindow.fxml");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void replaceSceneContent(String fxml) throws Exception {
         Parent page = FXMLLoader.load(ClientApp.class.getResource(fxml), null, new JavaFXBuilderFactory());
         Scene scene = stage.getScene();
         if (scene == null) {
@@ -52,11 +57,10 @@ public class ClientApp extends Application {
             stage.getScene().setRoot(page);
         }
         stage.sizeToScene();
-        return page;
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
         Scene scene = new Scene(new StackPane());
         stage = primaryStage;
         primaryStage.setOnCloseRequest(event -> {

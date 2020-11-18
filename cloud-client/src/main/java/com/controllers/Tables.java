@@ -49,9 +49,6 @@ public class Tables {
 
         tableView.getColumns().addAll(fileTypeColumn, filenameColumn, filesizeColumn, fileDateColumn);
         tableView.getSortOrder().add(fileTypeColumn);
-
-//        tableView.getItems().clear();
-//        tableView.getSelectionModel().select(0);
     }
 
     public static void prepareComboBox(ComboBox<String> comboBox) {

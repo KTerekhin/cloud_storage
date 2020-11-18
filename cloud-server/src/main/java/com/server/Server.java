@@ -1,5 +1,8 @@
 package com.server;
 
+
+import com.database.service.DataBaseAuthService;
+import com.handler.CloudServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -12,12 +15,13 @@ public class Server {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
+            DataBaseAuthService.start();
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        public void initChannel(SocketChannel channel) throws Exception {
+                        public void initChannel(SocketChannel channel) {
                             channel.pipeline()
                                     .addLast(new CloudServerHandler());
                         }
@@ -28,6 +32,7 @@ public class Server {
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
+            DataBaseAuthService.stop();
         }
     }
 
